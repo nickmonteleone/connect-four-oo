@@ -21,7 +21,9 @@ class Game {
   constructor(height, width) {
     this.height = height;
     this.width = width;
-    this.board = [];
+    this.makeBoard();
+    this.makeHtmlBoard();
+    // this.board = [];
   }
 
   /** makeBoard: fill in global `board`:
@@ -30,7 +32,7 @@ class Game {
 
   makeBoard() {
     console.log('making board for game class instance');
-
+    this.board = [];
     for (let y = 0; y < this.height; y++) {
       const emptyRow = Array.from({ length: this.width }).fill(null);
       this.board.push(emptyRow);
@@ -46,12 +48,13 @@ class Game {
     console.log('making html board for game class instance');
 
     const htmlBoard = document.getElementById("board");
+    htmlBoard.innerHTML = ("");
 
     // remove any past boards from DOM
-    for (let childNode of htmlBoard.childNodes) {
-      console.log('remove child nodes');
-      childNode.remove();
-    }
+    // for (let childNode of htmlBoard.childNodes) {
+    //   console.log('remove child nodes');
+    //   htmlBoard.removeChild(childNode);
+    // }
 
 
     // create top row
@@ -186,8 +189,8 @@ function handleClick(evt) {
 
 function start() {
   const game = new Game(6, 7);
-  game.makeBoard();
-  game.makeHtmlBoard();
+  // game.makeBoard();
+  // game.makeHtmlBoard();
 }
 
 start();
