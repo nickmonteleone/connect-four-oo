@@ -14,49 +14,77 @@ let currPlayer = 1; // active player: 1 or 2
 const board = []; // array of rows, each row is array of cells  (board[y][x])
 // (board[5][0] would be the bottom-left spot on the board)
 
-/** makeBoard: fill in global `board`:
+
+// adding class for Game
+class Game {
+
+  constructor(height, width) {
+    this.height = height;
+    this.width = width;
+    this.board = [];
+  }
+
+  /** makeBoard: fill in global `board`:
  *    board = array of rows, each row is array of cells  (board[y][x])
  */
 
-function makeBoard() {
-  for (let y = 0; y < HEIGHT; y++) {
-    const emptyRow = Array.from({length: WIDTH}).fill(null);
-    board.push(emptyRow);
-  }
-}
+  makeBoard() {
+    console.log('making board for game class instance');
 
-/** makeHtmlBoard: make HTML table and row of column tops. */
-
-function makeHtmlBoard() {
-  const htmlBoard = document.getElementById("board");
-
-  // TODO: add comment for this code
-  const top = document.createElement("tr");
-  top.setAttribute("id", "column-top");
-
-  for (let x = 0; x < WIDTH; x++) {
-    const headCell = document.createElement("td");
-    headCell.setAttribute("id", `top-${x}`);
-    headCell.addEventListener("click", handleClick);
-    top.append(headCell);
-  }
-  htmlBoard.append(top);
-
-  // dynamically creates the main part of html board
-  // uses HEIGHT to create table rows
-  // uses WIDTH to create table cells for each row
-  for (let y = 0; y < HEIGHT; y++) {
-    const row = document.createElement('tr');
-
-    for (let x = 0; x < WIDTH; x++) {
-      const cell = document.createElement('td');
-      cell.setAttribute('id', `c-${y}-${x}`);
-      row.append(cell);
+    for (let y = 0; y < this.height; y++) {
+      const emptyRow = Array.from({ length: this.width }).fill(null);
+      this.board.push(emptyRow);
     }
 
-    htmlBoard.append(row);
+    console.log('made board for game instance');
   }
+
+  /** makeHtmlBoard: make HTML table and row of column tops. */
+
+  makeHtmlBoard() {
+
+    console.log('making html board for game class instance');
+
+    const htmlBoard = document.getElementById("board");
+
+    // remove any past boards from DOM
+    for (let childNode of htmlBoard.childNodes) {
+      console.log('remove child nodes');
+      childNode.remove();
+    }
+
+
+    // create top row
+    const top = document.createElement("tr");
+    top.setAttribute("id", "column-top");
+
+    for (let x = 0; x < this.width; x++) {
+      const headCell = document.createElement("td");
+      headCell.setAttribute("id", `top-${x}`);
+      headCell.addEventListener("click", handleClick);
+      top.append(headCell);
+    }
+    htmlBoard.append(top);
+
+    // dynamically creates the main part of html board
+    // uses height to create table rows
+    // uses width to create table cells for each row
+    for (let y = 0; y < this.height; y++) {
+      const row = document.createElement('tr');
+
+      for (let x = 0; x < this.width; x++) {
+        const cell = document.createElement('td');
+        cell.setAttribute('id', `c-${y}-${x}`);
+        row.append(cell);
+      }
+
+      htmlBoard.append(row);
+    }
+    console.log('made html board for game class instance');
+  }
+
 }
+
 
 /** findSpotForCol: given column x, return y coordinate of furthest-down spot
  *    (return null if filled) */
@@ -97,12 +125,12 @@ function checkForWin() {
     //  - returns true if all are legal coordinates & all match currPlayer
 
     return cells.every(
-        ([y, x]) =>
-            y >= 0 &&
-            y < HEIGHT &&
-            x >= 0 &&
-            x < WIDTH &&
-            board[y][x] === currPlayer
+      ([y, x]) =>
+        y >= 0 &&
+        y < HEIGHT &&
+        x >= 0 &&
+        x < WIDTH &&
+        board[y][x] === currPlayer
     );
   }
 
@@ -157,8 +185,9 @@ function handleClick(evt) {
 /** Start game. */
 
 function start() {
-  makeBoard();
-  makeHtmlBoard();
+  const game = new Game(6, 7);
+  game.makeBoard();
+  game.makeHtmlBoard();
 }
 
 start();
