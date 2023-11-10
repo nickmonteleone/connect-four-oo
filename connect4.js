@@ -124,7 +124,7 @@ class Game {
     // check for win
     if (this.checkForWin()) {
       this.removeTopRow()
-      return this.endGame(`Player ${this.currPlayer} won!`);
+      return this.endGame(`Player ${this.currPlayer.number} won!`);
     }
 
     // check for tie: if top row is filled, board is filled
@@ -197,8 +197,21 @@ class Game {
 }
 
 class Player {
-  constructor(color) {
-    this.color = color;
+  constructor(color, number) {
+    this.number = number;
+
+    // add logic for if no entry
+    if (color.length > 0){
+      this.color = color;
+    }
+    else if (number === 1) {
+      this.color = 'red';
+    }
+    else if (number === 2) {
+      this.color = 'blue';
+    }
+
+    console.log('instantiated player', this.number, this.color);
   }
 }
 
@@ -206,8 +219,8 @@ class Player {
 
 function start() {
   console.log('starting game');
-  const p1 = new Player(document.getElementById('p1-color').value);
-  const p2 = new Player(document.getElementById('p2-color').value);
+  const p1 = new Player(document.getElementById('p1-color').value, 1);
+  const p2 = new Player(document.getElementById('p2-color').value, 2);
   console.log('player 1', p1);
   console.log('player 2', p2);
   const game = new Game(p1, p2);
