@@ -105,7 +105,7 @@ class Game {
 
 
     // get x from ID of clicked cell
-    const x = Number(evt.target.id.slice("top-".length))
+    const x = Number(evt.target.id.slice("top-".length));
 
     // get next spot in column (if none, ignore click)
     const y = this.findSpotForCol(x);
@@ -119,6 +119,7 @@ class Game {
 
     // check for win
     if (this.checkForWin()) {
+      this.removeTopRow()
       return this.endGame(`Player ${this.currPlayer} won!`);
     }
 
@@ -177,14 +178,36 @@ class Game {
 
   endGame(msg) {
     alert(msg);
+
   }
 
+  /** Remove top row when game is over */
+
+  removeTopRow() {
+    // remove event listeners from top row
+    console.log('removing event listeners');
+    const topRow = document.getElementById(`column-top`);
+    topRow.remove();
+  }
+
+}
+
+class Player {
+  constructor(color) {
+    this.color = color;
+  }
 }
 
 /** Start game. */
 
 function start() {
+  console.log('starting game');
+  const player1 = new Player(document.getElementById('p1-color').value);
+  const player2 = new Player(document.getElementById('p2-color').value);
+  console.log('player 1', player1);
+  console.log('player 2', player2);
   const game = new Game(6, 7);
 }
 
-start();
+const startButton = document.getElementById("start-game");
+startButton.addEventListener("click", start);
