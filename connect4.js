@@ -11,12 +11,14 @@
 // adding class for Game
 class Game {
 
-  constructor(height = 6, width = 7) {
+  constructor(p1, p2, height = 6, width = 7) {
+    this.p1 = p1;
+    this.p2 = p2;
     this.height = height;
     this.width = width;
     this.makeBoard();
     this.makeHtmlBoard();
-    this.currPlayer = 1;
+    this.currPlayer = p1;
   }
 
   /** makeBoard: fill in global `board`:
@@ -90,7 +92,9 @@ class Game {
 
     const piece = document.createElement('div');
     piece.classList.add('piece');
-    piece.classList.add(`p${this.currPlayer}`);
+    // piece.classList.add(`p${this.currPlayer}`);
+
+    piece.setAttribute("style", `background-color: ${this.currPlayer.color};`);
 
     const spot = document.getElementById(`c-${y}-${x}`);
     spot.append(piece);
@@ -130,7 +134,7 @@ class Game {
     }
 
     // switch players
-    this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+    this.currPlayer = this.currPlayer === this.p1 ? this.p2 : this.p1;
 
     console.log('click handled');
   }
@@ -202,11 +206,11 @@ class Player {
 
 function start() {
   console.log('starting game');
-  const player1 = new Player(document.getElementById('p1-color').value);
-  const player2 = new Player(document.getElementById('p2-color').value);
-  console.log('player 1', player1);
-  console.log('player 2', player2);
-  const game = new Game(6, 7);
+  const p1 = new Player(document.getElementById('p1-color').value);
+  const p2 = new Player(document.getElementById('p2-color').value);
+  console.log('player 1', p1);
+  console.log('player 2', p2);
+  const game = new Game(p1, p2);
 }
 
 const startButton = document.getElementById("start-game");
