@@ -103,8 +103,9 @@ class Game {
   handleClick(evt) {
     console.log('handling click');
 
+
     // get x from ID of clicked cell
-    const x = Number(evt.target.id.slice("top-".length));
+    const x = Number(evt.target.id.slice("top-".length))
 
     // get next spot in column (if none, ignore click)
     const y = this.findSpotForCol(x);
@@ -138,15 +139,8 @@ class Game {
   checkForWin() {
     console.log('checking for win');
 
-    // return undefined if game is over
-    if (this.board[0].every(cell => cell !== null)) {
-      return undefined;
-    }
-
     function _win(cells) {
 
-      console.log('running _win');
-      console.log(this)
       // Check four cells to see if they're all color of current player
       //  - cells: list of four (y, x) cells
       //  - returns true if all are legal coordinates & all match currPlayer
@@ -177,8 +171,9 @@ class Game {
           return true;
         }
       }
+      return false;
     }
-    return false;
+
   }
 
   /** endGame: announce game end */
@@ -192,7 +187,7 @@ class Game {
 /** Start game. */
 
 function start() {
-  const game = new Game(3, 2);
+  const game = new Game(6, 7);
 }
 
 start();
