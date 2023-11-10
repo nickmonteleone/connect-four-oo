@@ -10,7 +10,7 @@
 const WIDTH = 7;
 const HEIGHT = 6;
 
-let currPlayer = 1; // active player: 1 or 2
+// let currPlayer = 1; // active player: 1 or 2
 const board = []; // array of rows, each row is array of cells  (board[y][x])
 // (board[5][0] would be the bottom-left spot on the board)
 
@@ -23,7 +23,7 @@ class Game {
     this.width = width;
     this.makeBoard();
     this.makeHtmlBoard();
-    // this.board = [];
+    this.currPlayer = 1;
   }
 
   /** makeBoard: fill in global `board`:
@@ -44,18 +44,10 @@ class Game {
   /** makeHtmlBoard: make HTML table and row of column tops. */
 
   makeHtmlBoard() {
-
     console.log('making html board for game class instance');
 
     const htmlBoard = document.getElementById("board");
-    htmlBoard.innerHTML = ("");
-
-    // remove any past boards from DOM
-    // for (let childNode of htmlBoard.childNodes) {
-    //   console.log('remove child nodes');
-    //   htmlBoard.removeChild(childNode);
-    // }
-
+    htmlBoard.innerHTML = "";
 
     // create top row
     const top = document.createElement("tr");
@@ -64,7 +56,7 @@ class Game {
     for (let x = 0; x < this.width; x++) {
       const headCell = document.createElement("td");
       headCell.setAttribute("id", `top-${x}`);
-      headCell.addEventListener("click", handleClick);
+      // headCell.addEventListener("click", this.handleClick.bind(this));
       top.append(headCell);
     }
     htmlBoard.append(top);
@@ -86,37 +78,38 @@ class Game {
     console.log('made html board for game class instance');
   }
 
-}
-
-
-/** findSpotForCol: given column x, return y coordinate of furthest-down spot
+  /** findSpotForCol: given column x, return y coordinate of furthest-down spot
  *    (return null if filled) */
 
-function findSpotForCol(x) {
-  for (let y = HEIGHT - 1; y >= 0; y--) {
-    if (board[y][x] === null) {
-      return y;
+  findSpotForCol(x) {
+    for (let y = this.height - 1; y >= 0; y--) {
+      if (this.board[y][x] === null) {
+        return y;
+      }
     }
+    return null;
   }
-  return null;
+
+  /** placeInTable: update DOM to place piece into HTML table of board */
+
+  placeInTable(y, x) {
+    const piece = document.createElement('div');
+    piece.classList.add('piece');
+    piece.classList.add(`p${this.currPlayer}`);
+
+    const spot = document.getElementById(`c-${y}-${x}`);
+    spot.append(piece);
+  }
+
+  /** endGame: announce game end */
+
+  endGame(msg) {
+    alert(msg);
+  }
+
 }
 
-/** placeInTable: update DOM to place piece into HTML table of board */
 
-function placeInTable(y, x) {
-  const piece = document.createElement('div');
-  piece.classList.add('piece');
-  piece.classList.add(`p${currPlayer}`);
-
-  const spot = document.getElementById(`c-${y}-${x}`);
-  spot.append(piece);
-}
-
-/** endGame: announce game end */
-
-function endGame(msg) {
-  alert(msg);
-}
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
 
